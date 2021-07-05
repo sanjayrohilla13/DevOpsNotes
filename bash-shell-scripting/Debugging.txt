@@ -1,0 +1,95 @@
+How to Debug a Shell Script?
+Debugging is the process of finding and resolving bugs within a computer program. It provides a huge output at the runtime to analyze each part of the execution. Which helps to identify the root cause of any error in the script. In this tutorial, you will learn how to Debug a shell script on the Linux command line.
+
+We can debug a shell script in two ways. Either add the debugging instruction in the shell script by using “set -xv” or using -xv on command line while executing script.
+
+Adding Debug Instructions in Shell Script
+Let’s create a small script to test the debugging process. Create a new file and edit in text editor:
+
+nano checkdebug.sh 
+Add the following content to file:
+
+Shell
+#!/bin/bash
+
+set -xv  # This will enable debug
+cd /var/log/
+for i in "*.log"; do
+ du -sh $i
+done
+1
+2
+3
+4
+5
+6
+7
+#!/bin/bash
+ 
+set -xv  # This will enable debug
+cd /var/log/
+for i in "*.log"; do
+ du -sh $i
+done
+Save changes and close the file.
+
+Next set the execute permissions on file and then execute it.
+
+chmod +x checkdebug.sh 
+./checkdebug.sh 
+[Sample Output]
+
+cd /var/log/
++ cd /var/log/
+for i in "*.log"; do
+ du -sh $i
+done
++ for i in '"*.log"'
++ du -sh boot.log mysqld.log post111.log post1121.log yum.log
+0       boot.log
+32K     mysqld.log
+0       post111.log
+0       post1121.log
+4.0K    yum.log
+Provide Debug Instructions from Command Line
+Using this option we don’t need to add “set -xv” in shell script. Just create a shell script like below
+
+nano checkdebug2.sh 
+Shell
+#!/bin/bash
+
+cd /var/log/
+for i in "*.log"; do
+ du -sh $i
+done
+1
+2
+3
+4
+5
+6
+#!/bin/bash
+ 
+cd /var/log/
+for i in "*.log"; do
+ du -sh $i
+done
+and Execute like below
+
+sh -xv checkdebug2.sh 
+[Sample Output]
+
+#!/bin/bash
+
+cd /var/log/
++ cd /var/log/
+for i in "*.log"; do
+ du -sh $i
+done
++ for i in '"*.log"'
++ du -sh boot.log mysqld.log post111.log post1121.log yum.log
+0       boot.log
+32K     mysqld.log
+0       post111.log
+0       post1121.log
+4.0K    yum.log
